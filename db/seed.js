@@ -5,8 +5,8 @@ const User = require('../lib/models/User');
 
 module.exports = async({ usersToCreate = 15, notesToCreate = 50 } = {}) => {
   const loggedInUser = await User.create({
-    username: 'test@test.com',
-    password: 'password'
+    username: 'pajamas',
+    password: 'pajamasallday'
   });
 
   const users = await User.create([...Array(usersToCreate)].slice(1).map(() => ({
