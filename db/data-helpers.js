@@ -24,8 +24,8 @@ beforeEach(() => {
   return agent
     .post('/api/v1/auth/login')
     .send({
-      username: 'test@test.com',
-      password: 'password'
+      username: 'pajamas',
+      password: 'pajamasallday'
     });
 });
 
