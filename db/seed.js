@@ -2,9 +2,9 @@
 const chance = require('chance').Chance();
 const User = require('../lib/models/User');
 const Post = require('../lib/models/Post');
-// const Note = require('../lib/models/Note');
+const Comment = require('../lib/models/Comment');
 
-module.exports = async({ usersToCreate = 15, notesToCreate = 50, postsToCreate = 25 } = {}) => {
+module.exports = async({ usersToCreate = 15, postsToCreate = 25, commentsToCreate = 20 } = {}) => {
   const loggedInUser = await User.create({
     username: 'pajamas',
     password: 'pajamasallday'
@@ -15,6 +15,13 @@ module.exports = async({ usersToCreate = 15, notesToCreate = 50, postsToCreate =
     password: chance.name()
   })));
 
+  const posts = await Post.create([...Array(postsToCreate)].slice(1).map(() => ({
+    caption: chance.sentence(),
+    photoUrl: chance.url(),
+    tags: [chance.animal(), chance.animal(), chance.word()],
+    user: chance.pickone(users)
+  })));
+
   await Post.create([...Array(postsToCreate)].map(() => ({
     caption: chance.sentence(),
     photoUrl: chance.url(),
@@ -22,9 +29,9 @@ module.exports = async({ usersToCreate = 15, notesToCreate = 50, postsToCreate =
     user: chance.weighted([loggedInUser, ...users], [2, ...users.map(() => 1)])._id
   })));
 
-// await Note.create([...Array(notesToCreate)].map(() => ({
-//   title: chance.profession(),
-//   body: chance.sentence(),
-//   author: chance.weighted([loggedInUser, ...users], [2, ...users.map(() => 1)])._id
-// })));
+  await Comment.create([...Array(commentsToCreate)].map(() => ({
+    commentBy: chance.pickone(users),
+    post: chance.pickone(posts),
+    comment: chance.sentence()
+  })));
 };

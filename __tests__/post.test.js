@@ -25,6 +25,7 @@ describe('post routes', () => {
         });
       });
   });
+  
   it('gets a post by id', async() => {
     const user = await getUser({ username: 'pajamas' });
     const post = await getPost({ user: user._id });
