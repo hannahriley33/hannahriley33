@@ -48,4 +48,27 @@ describe('post routes', () => {
         expect(res.body).toEqual(posts);
       });
   });
+  it('updates a post by id', async() => {
+    const user = await getUser({ username: 'pajamas' });
+    const post = await getPost({ user: user._id });
+    return getAgent()
+      .patch(`/api/v1/posts/${post._id}`)
+      .send({ caption: 'updated caption' })
+      .then(res => {
+        expect(res.body).toEqual({
+          ...post,
+          caption: 'updated caption'
+        });
+      });
+  });
+  it('deletes a post by id', async() => {
+    const user = await getUser({ username: 'pajamas' });
+    const post = await getPost({ user: user._id });
+
+    return getAgent()
+      .delete(`/api/v1/posts/${post._id}`)
+      .then(res => {
+        expect(res.body).toEqual(post);
+      });
+  });
 });

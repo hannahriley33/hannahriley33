@@ -26,6 +26,6 @@ module.exports = async({ usersToCreate = 15, postsToCreate = 25, commentsToCreat
   await Comment.create([...Array(commentsToCreate)].map(() => ({
     comment: chance.sentence(),
     commentBy: chance.pickone(users),
-    gram: chance.pickone(post)
+    post: chance.pickone(post)
   })));
 };
